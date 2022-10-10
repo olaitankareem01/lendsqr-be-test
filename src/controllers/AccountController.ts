@@ -6,7 +6,7 @@ import AccountService from "../services/AccountService";
 import bcrypt from 'bcrypt';
 import * as jwt from "jsonwebtoken";
 import dotenv from 'dotenv';
-import FundWalletDto from "../models/dtos/fundWalletDto";
+import FundWalletDto from "../models/dtos/FundWalletDto";
 import WithdrawalDto from "../models/dtos/WithdrawalDto";
 import TransferFundDto from "../models/dtos/TransferFundDto";
 

@@ -7,7 +7,7 @@ import WalletRepository from "../repositories/WalletRepository";
 const walletRepository:WalletRepository = new WalletRepository();
 import Wallet from "../models/Wallet";
 import {v4 as uuidv4} from 'uuid';
-import FundWalletDto from "../models/dtos/fundWalletDto";
+import FundWalletDto from "../models/dtos/FundWalletDto";
 import TransactionService from "../services/TransactionService";
 import WithdrawalDto from "../models/dtos/WithdrawalDto";
 import TransferFundDto from "../models/dtos/TransferFundDto";
