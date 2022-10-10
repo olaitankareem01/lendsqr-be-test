@@ -50,7 +50,7 @@ export default  class AccountService {
 
 
 
-  async findAccount(email:string): Promise<any> {
+  async findAccount(email:string) {
 
     const userFound = await userRepository.findUserByEmail(email);
     return userFound

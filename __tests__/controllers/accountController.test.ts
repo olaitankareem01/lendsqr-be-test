@@ -15,10 +15,19 @@ const acctService  = new AccountService();
 
  
 describe("Login endpoint tests",  () => {
-    beforeEach(() =>{
-        jest.resetAllMocks();
-    });
+    // beforeEach(() =>{
+    //     jest.resetAllMocks();
+    // });
 
+    const account =   [
+        {
+            id:1,
+            email:"ade@gmail.com",
+            firstName:"rahman",
+            lastName:"kareem",
+            password:"$2b$10$mdbHbI2MjXrVHWIZ9YkpxOv.R/M4bNNR88mkD0CMN48wQ2ZsnRmV."
+        }
+    ]
     
     test("it should return email and password are required when email or password is missing", async () => {
         jest.setTimeout(40000);
@@ -56,36 +65,46 @@ describe("Login endpoint tests",  () => {
         // acctService.findAccount = jest.fn().mockResolvedValue(mockResponse);
         // jest.spyOn(acctService, 'findAccount').mockResolvedValue(mockResponse);
         
-        acctService.findAccount = jest.fn();
-        const mockedFunction = jest.mock('../../src/services/AccountService', () => {
-            return {
-            findAccount: jest.fn((email:string) => {
-                    console.log('Test');
-                    return Promise.resolve( [
-                        {
-                            id:1,
-                            email:"ade@gmail.com",
-                            firstName:"rahman",
-                            lastName:"kareem",
-                            password:"$2b$10$mdbHbI2MjXrVHWIZ9YkpxOv.R/M4bNNR88mkD0CMN48wQ2ZsnRmV."
-                        }
-                    ]);
-                })
+        // acctService.findAccount = jest.fn();
+        // const mockedFunction = jest.mock('../../src/services/AccountService', () => {
+        //     return {
+        //     findAccount: jest.fn((email:string) => {
+        //             console.log('Test');
+        //             return Promise.resolve( [
+        //                 {
+        //                     id:1,
+        //                     email:"ade@gmail.com",
+        //                     firstName:"rahman",
+        //                     lastName:"kareem",
+        //                     password:"$2b$10$mdbHbI2MjXrVHWIZ9YkpxOv.R/M4bNNR88mkD0CMN48wQ2ZsnRmV."
+        //                 }
+        //             ]);
+        //         })
 
-            };
-        });
+        //     };
+        // });
 
-        const mReq = ({body:{email:"ade@gmail.com", password:"ola"}} as unknown) as Request;
-        const mRes = ({ status: jest.fn().mockReturnThis(), json: jest.fn() } as unknown) as Response;
+        const mockFindAccount = jest.fn(async ():Promise<any> => account);
+
+        jest.spyOn(acctService,'findAccount').mockImplementation(async () => await mockFindAccount());
+        const requestBody = {email:"ade@gmail.com", password:"ola"};
+        const res = await  request(app)
+        .post("account/login")
+        .send(requestBody)
+        // .expect(200);
+        // console.log(res.body);
+        expect(res.body.message).toEqual("No Account found with this credentials")
+        // const mReq = ({body:{email:"ade@gmail.com", password:"ola"}} as unknown) as Request;
+        // const mRes = ({ status: jest.fn().mockReturnThis(), json: jest.fn() } as unknown) as Response;
 
         //Act
-        await acctController.login(mReq,mRes);
+        // await acctController.login(mReq,mRes);
 
         //Assert
         // expect(jest.mocked(mockedFunction)).toHaveBeenCalledTimes(1);
         // expect(acctService.findAccount).toHaveBeenCalledWith(email)
-        expect(mRes.status).toBeCalledWith(200);
-        expect(mRes.json).toBeCalledWith({ status:200, token:""});
+        // expect(mRes.status).toBeCalledWith(200);
+        // expect(mRes.json).toBeCalledWith({ status:200, token:""});
     });
 
 

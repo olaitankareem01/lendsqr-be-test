@@ -7,7 +7,8 @@
     "start": "tsc && node dist/src/app.js",
     "lint": "eslint . --ext .ts",
     "test": "jest --coverage --forceExit --detectOpenHandles  --watchAll --maxWorkers=1",
-    "deploy": "git add . && git commit -m Heroku && git push heroku master"
+    "deploy": "git add . && git commit -m Heroku && git push heroku master",
+    "postinstall": "tsc"
   },
   "author": "Abdurrahman Kareem",
   "license": "ISC",
