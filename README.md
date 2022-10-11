@@ -38,7 +38,9 @@ https://www.postman.com/olaitankareem01/workspace/lendsqr-be-test-api/collection
 
 
 ### Database Design
-	![alt text](lendsqrdb.png)
+	![database design](lendsqrdb.png)
+
+   <img src="lendsqrdb.png"/>
 ### Technologies Used
 * [NodeJS](https://nodejs.org/) This is a cross-platform runtime environment built on Chrome's V8 JavaScript engine used in running JavaScript codes on the server. It allows for installation and managing of dependencies and communication with databases.
 * [ExpressJS](https://www.expresjs.org/) This is a NodeJS web application framework.
