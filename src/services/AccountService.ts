@@ -21,7 +21,7 @@ export default  class AccountService {
 
 
 
-  async createAccount(user:CreateUserDto): Promise<boolean> {
+  async createAccount(user:CreateUserDto): Promise<any> {
    
     const createdUser = await userRepository.registerUser(user);
 
@@ -37,14 +37,23 @@ export default  class AccountService {
 
        // creates a wallet 
       const createdWallet = await walletRepository.createWallet(newWallet);
-
+      
       if(createdWallet != undefined && createdWallet.length > 0){
-           return true;
+          const wallet = await walletRepository.findWalletByUserId(createdUser[0])
+         
+           return {
+             sucess:true,
+             walletId: wallet[0].WalletId
+           };
       }
+      return {
+        sucess:false,
+        walletId: null
+      };;
 
      }
    
-    return false;
+    
 
   }
 
@@ -106,7 +115,6 @@ export default  class AccountService {
     const recipientWallet = await walletRepository.findWallet(transfer.recipientWalletId);
     // const payment = await transactionService.transferToBank(data);
     
-    //  if(payment !== undefined){
       let newSenderBalance = Number(senderWallet[0].balance) - Number(transfer.amount);
       let newReceiverBalance = Number(recipientWallet[0].balance) + Number(transfer.amount);
       let senderBalanceUpdated =  await walletRepository.updateBalance(newSenderBalance,user[0].id);

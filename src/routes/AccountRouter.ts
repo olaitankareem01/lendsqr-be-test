@@ -10,10 +10,10 @@ const acctController = new AccountController();
 export const accountRoute = express.Router();
 
 
-accountRoute.post('/account/login', async(req:Request, res:Response) => acctController.login(req, res));
-accountRoute.post('/account/create', async(req:Request, res:Response) => acctController.createAccount(req, res));
-accountRoute.post('/account/fund',auth, async(req:Request, res:Response) => acctController.fundAccount(req, res));
-accountRoute.post('/account/withdraw',auth, async(req:Request, res:Response) => acctController.withdraw(req, res));
-accountRoute.post('/account/transfer',auth, async(req:Request, res:Response) => acctController.transferFund(req, res));
+accountRoute.post('/v1/account/login', async(req:Request, res:Response) => acctController.login(req, res));
+accountRoute.post('/v1/account/create', async(req:Request, res:Response) => acctController.createAccount(req, res));
+accountRoute.post('/v1/account/fund',auth, async(req:Request, res:Response) => acctController.fundAccount(req, res));
+accountRoute.post('/v1/account/withdraw',auth, async(req:Request, res:Response) => acctController.withdraw(req, res));
+accountRoute.post('/v1/account/transfer',auth, async(req:Request, res:Response) => acctController.transferFund(req, res));
 
 

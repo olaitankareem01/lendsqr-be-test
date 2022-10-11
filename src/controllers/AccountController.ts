@@ -23,6 +23,7 @@ export default class AccountController {
 
 
     const { email,password,firstName,lastName } = req.body;
+    console.log(req.body);
 
       if(email && password && firstName && lastName){
         
@@ -30,7 +31,7 @@ export default class AccountController {
           const acctFound = await acctService.findAccount(email);
           
           if(acctFound != undefined && acctFound.length > 0){
-            return res.json({
+            return res.status(400).json({
               status: 400,
               message:"Account already exist"
             });
@@ -45,22 +46,22 @@ export default class AccountController {
          }
 
          const userCreated = await acctService.createAccount(newUser);
-     
-         if(userCreated){
-           return res.json({
+    
+         if(userCreated !== undefined && userCreated.sucess == true){
+           return res.status(200).json({
              status: 200,
-             message:"your Account has been successfully created"
+             message:`your Account has been successfully created and your wallet address is ${userCreated.walletId}`
            });
          }
          else{
-          return res.json({
+          return res.status(500).json({
             status: 500,
             message:"something went wrong"
           });
          }
       }
       else{
-        return res.json({
+        return res.status(400).json({
           status: 400,
           message:"invalid input"
         });
@@ -73,19 +74,11 @@ export default class AccountController {
     const { email,amount,currency,card_number,cvv,expiry_month,expiry_year,pin} = req.body;
 
     if(email && amount && currency && card_number && cvv  && expiry_month && expiry_year && pin){
-      // const userBalance:number = await acctService.checkBalance(email);
-
-      // if(userBalance != undefined && userBalance < amount){
-      //   return res.json({
-      //     status: 400,
-      //     message:"Insufficient Fund"
-      //   });
-      // }
-
+      
       const acctFound = await acctService.findAccount(email);
           
       if(acctFound === undefined || acctFound.length <= 0){
-        return res.json({
+        return res.status(400).json({
           status: 400,
           message:"No Account found with this email"
         });
@@ -104,20 +97,20 @@ export default class AccountController {
       const fundedAccount = await acctService.fundAccount(fund);
     
       if(fundedAccount !== null){
-        return res.json({
+        return res.status(200).json({
           status: 200,
           message:`your Account has been successfully funded and your new balance is ${fundedAccount}`
         });
       }
       else{
-        return res.json({
+        return res.status(500).json({
           status: 500,
           message:"something went wrong"
         });
        }
     }
     else{
-      return res.json({
+      return res.status(400).json({
         status: 400,
         message:"All fields are required"
       });
@@ -132,23 +125,26 @@ export default class AccountController {
 
     if(email && amount && account_bank && account_number && amount && beneficiary_name){
 
+
+      const acctFound = await acctService.findAccount(email);
+          
+      if(acctFound === undefined || acctFound.length <= 0){
+        return res.status(400).json({
+          status: 400,
+          message:"No Account found with this email"
+        });
+      }
+
+
       const userBalance:number = await acctService.checkBalance(email);
 
       if(userBalance != undefined && userBalance < amount){
-        return res.json({
+        return res.status(400).json({
           status: 400,
           message:"Insufficient Fund"
         });
       }
 
-      const acctFound = await acctService.findAccount(email);
-          
-      if(acctFound === undefined || acctFound.length <= 0){
-        return res.json({
-          status: 400,
-          message:"No Account found with this email"
-        });
-      }
       const withdrawal: WithdrawalDto = {
         email: email,
         amount: amount,
@@ -160,20 +156,20 @@ export default class AccountController {
       const withdraw = await acctService.withdrawFromAccount(withdrawal)
     
       if(withdraw !== null){
-        return res.json({
+        return res.status(200).json({
           status: 200,
           message:`your withdrawal was successful and your new balance is ${withdraw}`
         });
       }
       else{
-        return res.json({
+        return res.status(500).json({
           status: 500,
           message:"something went wrong"
         });
        }
     }
     else{
-      return res.json({
+      return res.status(400).json({
         status: 400,
         message:"All fields are required"
       });
@@ -248,7 +244,7 @@ export default class AccountController {
   async login(req:Request,res:Response){
 
     let { email, password } = req.body;
-     console.log(req.body);
+     
     if (!(email && password)) {
       return res.status(400).json({
         status:400,
@@ -269,7 +265,7 @@ export default class AccountController {
     const validPassword = bcrypt.compareSync(password, acctFound[0].password);
      
      if (!validPassword) {
-       return res.status(401).send({
+       return res.status(401).json({
         status: 401,
         message:"No Account found with this credentials"
       });

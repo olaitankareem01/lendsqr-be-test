@@ -11,7 +11,8 @@ const db: { [key: string]: Knex.Config } = {
     connection: {
       database: process.env.DB_NAME,
       user: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD
+      password: process.env.DB_PASSWORD,
+      host: process.env.DB_HOST
     },
     pool: {
       min: 2,
@@ -28,7 +29,8 @@ const db: { [key: string]: Knex.Config } = {
     connection: {
       database: process.env.DB_NAME,
       user: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD
+      password: process.env.DB_PASSWORD,
+      host: process.env.DB_HOST
     },
     pool: {
       min: 2,
@@ -44,7 +46,8 @@ const db: { [key: string]: Knex.Config } = {
     connection: {
         database: process.env.DB_NAME,
         user: process.env.DB_USERNAME,
-        password: process.env.DB_PASSWORD
+        password: process.env.DB_PASSWORD,
+        host: process.env.DB_HOST
       },
     pool: {
       min: 2,

@@ -1,45 +1,55 @@
-import   AccountService from "../../src/services/AccountService";
-import type { Request, Response } from 'express';
+import { expect } from 'chai';
+import sinon from 'sinon';
+// import * as faker from 'faker';
+import {faker} from '@faker-js/faker';
+import CreateUserDto from '../../src/models/dtos/CreateUserDto';
+import UserRepository from '../../src/repositories/UserRepository';
+import { db } from "../../src/database/db";
 
-import UserRepository from "../../src/repositories/UserRepository";
-const acctService  = new AccountService();
-const  userRepo = new UserRepository();
+const userRepo = new UserRepository();
+
+const stubValue = {
+  id: 1,
+  firstName: faker.name.findName(),
+  lastName: faker.name.findName(),
+  email: faker.internet.email(),
+  password: faker.name.findName(),
+  createdAt: faker.date.past(),
+  updatedAt: faker.date.past()
+};
+
+const stub = sinon.stub(userRepo, "findById").resolves(stubValue);
+
+import AccountService from '../../src/services/AccountService';
+
+describe("UserRepository", function() {
 
 
- 
-// describe("find account service method test",  () => {
-//     beforeEach(() =>{
-//         jest.resetAllMocks();
-//     });
-
-    
-//     test("it should return email and password are required when email or password is missing", async () => {
-//         jest.setTimeout(40000);
-//         const email = "ade@gmail.com";
-//             const mockResponse =  [
-//                         {
-//                             id:1,
-//                             email:"ade@gmail.com",
-//                             firstName:"rahman",
-//                             lastName:"kareem",
-//                             password:"$2b$10$mdbHbI2MjXrVHWIZ9YkpxOv.R/M4bNNR88mkD0CMN48wQ2ZsnRmV."
-//                         }
-//                        ];
-
-//         // acctService.findAccount = jest.fn().mockResolvedValue(mockResponse);
-//         jest.spyOn(userRepo, 'findUserByEmail').mockImplementationOnce((email:string) => { 
-//             return mockResponse
-//         });
-//          const result = await acctService.findAccount("ade@gmail.com");
-//         expect(result.length).toEqual(1);
-//         // expect(mRes.json).toBeCalledWith({ status:400, message:"email and password are required"});
-//     });
+  const record = {
+  
+    firstName: "rahman",
+    lastName: "kaeem",
+    email: "kunle@gmail.com",
+    password: "ola"   
+  }
+  describe("account serice test", function() {
+    it("it should return an account that matches the provided email", async function() {
+    //   const stub = sinon.stub(db, "insert").returns(stubValue);
+    //   const userRepository = new UserRepository();
+    //   const user = await userRepository.registerUser(record);
+    //   expect(stub.calledOnce).to.be.true;
 
 
   
-
-
-
-
-//   });
-
+      const acctService = new AccountService();
+      const user = await acctService.findAccount(stubValue.email);
+      expect(stub.called).to.be.true;
+      expect(user.id).to.equal(stubValue.id);
+    //   expect(user.name).to.equal(stubValue.name);
+      expect(user.email).to.equal(stubValue.email);
+      expect(user.createdAt).to.equal(stubValue.createdAt);
+      expect(user.updatedAt).to.equal(stubValue.updatedAt);
+   
+    });
+  });
+});

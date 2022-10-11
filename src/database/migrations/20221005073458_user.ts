@@ -9,14 +9,14 @@ export async function up(knex: Knex): Promise<void> {
         table.string('email').notNullable().unique();
         table.string('password').notNullable();
         table.boolean('IsDeleted').defaultTo(false);
-        table.timestamps(true, true)
+        table.timestamps(true)
     })
     .createTable('wallet', function (table) {
         table.uuid('WalletId').notNullable().primary();
         table.decimal('balance');
         table.boolean('isDeleted').defaultTo(false);
         table.integer('userId').notNullable().unsigned().unique().references('id').inTable('user');
-        table.timestamps(true, true)
+        table.timestamps(true)
     })
     .createTable('transaction', function (table) {
         table.string('transactionRef').notNullable().unique().primary();
@@ -25,7 +25,7 @@ export async function up(knex: Knex): Promise<void> {
         table.string('summary',300).notNullable();
         table.string('description').nullable()
         table.boolean('isDeleted').defaultTo(false);
-        table.timestamps(true, true)
+        table.timestamps(true)
     })
     
     

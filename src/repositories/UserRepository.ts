@@ -7,12 +7,9 @@ import CreateUserDto from "../models/dtos/CreateUserDto";
 
 @Service()
 class UserRepository {
-  
-  async getAllUsers(): Promise<User[]> {
-     return await db('user').select();
-  }
 
-  async registerUser(user:CreateUserDto){
+
+  async registerUser(user:CreateUserDto):Promise<any>{
       
     return await db('user').insert({
                   lastName:user.lastName,
@@ -23,7 +20,7 @@ class UserRepository {
     
   }
 
-  async findUserByEmail(email): Promise<any>{
+  async findUserByEmail(email:string): Promise<any>{
     return await db('user').where('email','=',`${email}`);
   }
 
