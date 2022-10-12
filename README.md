@@ -77,7 +77,7 @@
       ```
 
       response:
-
+      ```
 
       {
          "status": 400,
@@ -176,7 +176,7 @@
       
       sample request:
       ```
-      {
+        {
          "email":"johndoe@gmail.com",
          "amount":7000,
          "card_number":"5438898014560229",
@@ -186,10 +186,9 @@
          "expiry_year":"2022",
          "currency":"NGN"
       }
-
      ```
-     response:
 
+     response:
       ```
          {
             "status": 200,
@@ -197,9 +196,10 @@
          }
 
       ```
+
    
 
-   * when one or more required parameters are missing:
+* when one or more required parameters are missing:
     
       sample request:
       ```
