@@ -400,7 +400,7 @@
   There are 3 major entities in the system.:
    1. User: this represent a customer and it holds details such as the customer's email,fisrtname,lastname,password.
    2. Wallet: this represent the customer's wallet. each customer in the system has a wallet. The entity contains fields such as: walletId,balance,userId e.t.c
-   3. Transaction: keeps track of the transaction made by the customer. it fields include: transactionRef,summary,description e.t.c
+   3. Transaction: keeps track of the transactions made by the customer. it fields include: transactionRef,summary,description e.t.c
 
    Below is an entity relationship diagram illustrating the relationship among these models:
 
