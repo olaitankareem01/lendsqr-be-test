@@ -23,7 +23,7 @@ export default class AccountController {
 
 
     const { email,password,firstName,lastName } = req.body;
-    console.log(req.body);
+   
 
       if(email && password && firstName && lastName){
         
@@ -254,7 +254,7 @@ export default class AccountController {
 
 
     const acctFound = await acctService.findAccount(email);
-      console.log(acctFound);
+     
     if(acctFound === undefined || acctFound.length <= 0){
       return res.status(401).json({
         status: 401,
