@@ -1,7 +1,7 @@
 
 
 // README.md
-# Lendsqr-be-test
+# Demo Credit
 ### Introduction
    This project is a node.js api project built as lenqr backend assessment.The project was deployed on heroku and it 
    is accessible [via]: https://kareem-rahman-lendsqr-be-test.herokuapp.com
