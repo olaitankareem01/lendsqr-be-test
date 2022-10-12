@@ -7,6 +7,7 @@
     "start": "tsc && node dist/src/app.js",
     "lint": "eslint . --ext .ts",
     "test": "mocha -r ts-node/register '__tests__/**/*.ts'",
+    "migrate":"npx knex migrate:up",
     "deploy": "git add . && git commit -m Heroku && git push heroku master",
     "postinstall": "tsc"
   },

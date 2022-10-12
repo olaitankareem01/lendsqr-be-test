@@ -132,6 +132,7 @@ async chargeCard (data:FundWalletDto){
     return await transactRepository.createTransaction(transaction);
   }
 
+
   private async validateCharge (flwRef){
         try {
         
@@ -161,6 +162,7 @@ async chargeCard (data:FundWalletDto){
       }
     
 
+      
    private encrypt(text) {
     let key = encryptionKey
     let cipher = forge.cipher.createCipher(

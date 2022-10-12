@@ -20,6 +20,7 @@
 * Run npm install to install all dependencies
 * setup a mysql database for this project . 
 * Create an .env file in the project root folder and set the environment variables. See sample.env for assistance.
+* Run npm migrate to migrate to the database you created
 ### Usage
 * Run npm start to start the application.
 * Connect to the API using Postman on the port you have  specified in your .env.
@@ -413,6 +414,7 @@
  * KnexORM
  * JWT: for authentication
  * FlutterWave API: for payment integration
+ * MySQL
 
 ### Links
 [serverURL] : https://kareem-rahman-lendsqr-be-test.herokuapp.com

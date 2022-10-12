@@ -275,8 +275,10 @@ describe("AccountController", () => {
                   beneficiary_name:"kareem abd-rahman",
                   account_number:"0978765654"
           } };
-            
+          
+          const newBalance = 1000;
           sinon.stub(acctService, "checkBalance").returns(Promise.resolve(balance));
+          sinon.stub(acctService, "withdrawFromAccount").returns(Promise.resolve(newBalance));
           const stub = sinon.stub(acctService, "findAccount").returns(Promise.resolve(Value));
           // Act
           const response = await acctController.withdraw(req, res);
@@ -296,6 +298,126 @@ describe("AccountController", () => {
     
       });
 
+     
+      describe("transfer method", () => {
+        const sandbox = sinon.createSandbox();
+        let status:any, json:any, res:any;
+        beforeEach(() => {
+          status = sinon.stub();
+          json = sinon.spy();
+          res = { json, status };
+          status.returns(res);
+        });
+  
+        afterEach(function () {
+          sinon.restore();
+          sandbox.restore();
+        });
+    
+
+        it("should  return 400 if email is invalid", async () => {
+          //Arrange
+          const Value = [];
+            const req:any = { body: {
+              
+                email:"kad@gmail.com",
+                 amount:30000000,
+                 recipient_walletId:"4a4bba47-39dd-43dd-bbd4-b8d8cbee75df"
+            
+            } };
+           const stub = sinon.stub(acctService, "findAccount").returns(Promise.resolve(Value));
+          // Act
+          const response = await acctController.transferFund(req, res);
+      
+          // Assert
+          // expect(status.calledOnce).to.be.true;
+          expect(status.args[0][0]).to.equal(400);
+        });
+
+        it("should  return 400 if wallet address is invalid", async () => {
+          //Arrange
+          const Value = [
+            {
+              id: 51,
+              firstName: 'ade',
+              lastName: 'lola',
+              email: 'ade@gmail.com',
+              password: '$2b$10$7ji4dzaDsM.j4kNzHkDpUOldzBs3r2Y9M8mWYT7KGI6Y.RnW65RQi',
+              IsDeleted: 0   
+            }
+          ];
+          const balance = 3000;
+          const req:any = { body : {
+            email:"kad@gmail.com",
+             amount:30000000,
+             recipient_walletId:"4a4bba47-39dd-43dd-bbd4-b8d8cbee75df"
+        }  };
+          
+          const recipientWallet = null;
+
+          sinon.stub(acctService, "verifyWallet").returns(Promise.resolve(null));
+          sinon.stub(acctService, "checkBalance").returns(Promise.resolve(balance));
+          const stub = sinon.stub(acctService, "findAccount").returns(Promise.resolve(Value));
+          // Act
+          const response = await acctController.withdraw(req, res);
+      
+          // Assert
+          expect(status.calledOnce).to.be.true;
+          expect(status.args[0][0]).to.equal(400);
+        });
+
+
+        it("should  return 200 if transfer is successful", async () => {
+          //Arrange
+          const Value = [
+            {
+              id: 51,
+              firstName: 'ade',
+              lastName: 'lola',
+              email: 'ade@gmail.com',
+              password: '$2b$10$7ji4dzaDsM.j4kNzHkDpUOldzBs3r2Y9M8mWYT7KGI6Y.RnW65RQi',
+              IsDeleted: 0   
+            }
+          ];
+          const balance = 3000;
+          const req:any = { body : {
+            email:"ade@gmail.com",
+             amount:1000,
+             recipient_walletId:"4a4bba47-39dd-43dd-bbd4-b8d8cbee75df"
+        }  };
+          
+          const recipientWallet =  {
+            firstName:"ade",
+            lastName: "kola"
+          }
+
+          const transfer =  {
+            senderBalance: 2000
+          }
+
+          const stub = sinon.stub(acctService, "findAccount").returns(Promise.resolve(Value));
+          sinon.stub(acctService, "verifyWallet").returns(Promise.resolve(recipientWallet));
+          sinon.stub(acctService, "checkBalance").returns(Promise.resolve(balance));
+          sinon.stub(acctService, "transferFund").returns(Promise.resolve(transfer));
+          // Act
+          const response = await acctController.withdraw(req, res);
+      
+          // Assert
+          expect(status.calledOnce).to.be.true;
+          expect(status.args[0][0]).to.equal(200);
+        });
+
+   
+      
+        
+
+       
+      
+  
+       
+        
+    
+      });
 
 
 
@@ -304,7 +426,6 @@ describe("AccountController", () => {
 
 
 
-//     describe("register", function() {
 //       let status json, res, userController, userService;
 //       beforeEach(() => {
 //         status = sinon.stub();
