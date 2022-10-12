@@ -403,7 +403,7 @@
 
    Below is an entity relationship diagram illustrating the relationship among these models:
 
-   <img src="lendsqrerd.png"/>
+   <img src="lendqrerd.png"/>
 
 
 ### Technologies Used
